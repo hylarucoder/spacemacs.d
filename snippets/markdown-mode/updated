@@ -1,0 +1,6 @@
+# name: update infomation
+# key: updated
+# contributor: Micheal Gardner
+# --
+ChangeLog:
+ - **`(format-time-string "%Y-%m-%d %H:%M:%S")`$0** 重修文字

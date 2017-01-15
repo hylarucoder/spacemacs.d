@@ -1,0 +1,39 @@
+# name: tags
+# key: btag
+# contributor: Micheal Gardner
+# --
+ - Authentication
+ - Authorization
+ - CSV
+ - Django Admin
+ - Django ORM
+ - IPynb
+ - Excel
+ - ECharts
+ - Linux Shell
+ - Metaprogramming
+ - MongoDB
+ - MySQL
+ - macOS
+ - Ubuntu
+ - PDF
+ - RTFSC
+ - RabbitMQ
+ - Redis
+ - Refactoring
+ - Ruby
+ - Scrapy
+ - ToyTools
+ - Lxml
+ - XPath
+ - 可视化
+ - 数据分析
+ - 分布式
+ - 碎碎念
+ - 影评
+ - 书单与简评
+ - 编程工具
+ - 沟通交流
+ - Vim
+ - Tmux
+ - 知乎回答

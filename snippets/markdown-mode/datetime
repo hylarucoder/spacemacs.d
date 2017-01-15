@@ -1,0 +1,5 @@
+# name: currentdatetime
+# key: datetime
+# contributor: Micheal Gardner
+# --
+`(format-time-string "%Y-%m-%d %H:%M:%S")`$0

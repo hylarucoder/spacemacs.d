@@ -1,0 +1,7 @@
+# name: code block
+# key: cbl
+# contributor: Micheal Gardner
+# --
+\`\`\`bash$1
+$0
+\`\`\`
