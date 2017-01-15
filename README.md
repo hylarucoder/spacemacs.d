@@ -1,10 +1,11 @@
-# twocucao 的 spacemacs.private 配置
+# Spacemacs 私人定制
 
-简单的配置，方便初次启动 spacemacs
+这是我开始使用 Spacemacs 的基本配置
 
 ## 使用
 
 ```bash
-git clone
+mv ~/.spacemacs .spacemacs.bak
+git clone https://github.com/twocucao/spacemacs.d.git ~/.spacemacs.d
 ```
 
