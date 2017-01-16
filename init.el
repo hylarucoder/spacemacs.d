@@ -44,7 +44,6 @@ values."
      git
      dash
      html
-     ivy
      javascript
      markdown
      shell-scripts
