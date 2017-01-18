@@ -37,17 +37,28 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-snippets-in-popup t
+                      :disabled-for markdown)
      better-defaults
      emacs-lisp
      imenu-list
-     git
+     (git :variables
+          git-magit-status-fullscreen t
+          magit-push-always-verify nil
+          magit-revision-show-gravatars nil)
      dash
      html
      javascript
      markdown
      shell-scripts
-     org
+     (org :variables
+          org-enable-github-support t
+          org-enable-reveal-js-support t
+          org-bullets-bullet-list '("■" "◆" "▲" "▶")
+          org-projectile-file "~/Writing/org-notes/TODOs.org"
+          )
      osx
      sql
      (python :variables
@@ -145,7 +156,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -307,7 +318,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
           ("org-cn"   . "http://elpa.zilongshanren.com/org/")
           ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/"))
         )
-  
   )
 
 (defun dotspacemacs/user-config ()
@@ -317,6 +327,20 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;;解决org表格里面中英文对齐的问题
+  (when (configuration-layer/layer-usedp 'chinese)
+    (when (and (spacemacs/system-is-mac) window-system)
+      (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 14 16)))
+
+  ;; Setting Chinese Font
+  (when (and (spacemacs/system-is-mswindows) window-system)
+    (setq ispell-program-name "aspell")
+    (setq w32-pass-alt-to-system nil)
+    (setq w32-apps-modifier 'super)
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font (frame-parameter nil 'font)
+                        charset
+                        (font-spec :family "Microsoft Yahei" :size 14))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -328,7 +352,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ein websocket pony-mode imenu-list dash-at-point counsel-dash helm-dash web-mode web-beautify tagedit sql-indent slim-mode scss-mode sass-mode pug-mode livid-mode skewer-mode simple-httpd less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc insert-shebang helm-css-scss haml-mode fish-mode emmet-mode company-web web-completion-data company-tern dash-functional tern company-shell coffee-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic youdao-dictionary names chinese-word-at-point wgrep smex ivy-hydra counsel-projectile counsel swiper ivy pangu-spacing find-by-pinyin-dired chinese-pyim chinese-pyim-basedict pos-tip ace-pinyin pinyinlib ace-jump-mode smeargle reveal-in-osx-finder pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow launchctl htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete volatile-highlights vi-tilde-fringe spaceline powerline rainbow-delimiters spinner org-bullets neotree lorem-ipsum ido-vertical-mode hydra parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make pkg-info epl helm-flx helm-descbinds helm-ag google-translate flx-ido flx fancy-battery eyebrowse evil-mc evil-lisp-state smartparens evil-indent-plus iedit evil-exchange evil-escape evil-ediff evil-args anzu evil goto-chg undo-tree highlight f s diminish define-word clean-aindent-mode bind-key packed dash ace-jump-helm-line helm avy helm-core popup package-build spacemacs-theme ws-butler window-numbering which-key uuidgen use-package toc-org restart-emacs request quelpa projectile popwin persp-mode pcre2el paradox org-plus-contrib open-junk-file move-text macrostep linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers hide-comnt help-fns+ golden-ratio fill-column-indicator expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-iedit-state evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump column-enforce-mode bind-map auto-highlight-symbol auto-compile async aggressive-indent adaptive-wrap ace-window ace-link))))
+    (ox-reveal ox-gfm ein websocket pony-mode imenu-list dash-at-point counsel-dash helm-dash web-mode web-beautify tagedit sql-indent slim-mode scss-mode sass-mode pug-mode livid-mode skewer-mode simple-httpd less-css-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc insert-shebang helm-css-scss haml-mode fish-mode emmet-mode company-web web-completion-data company-tern dash-functional tern company-shell coffee-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic youdao-dictionary names chinese-word-at-point wgrep smex ivy-hydra counsel-projectile counsel swiper ivy pangu-spacing find-by-pinyin-dired chinese-pyim chinese-pyim-basedict pos-tip ace-pinyin pinyinlib ace-jump-mode smeargle reveal-in-osx-finder pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow launchctl htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete volatile-highlights vi-tilde-fringe spaceline powerline rainbow-delimiters spinner org-bullets neotree lorem-ipsum ido-vertical-mode hydra parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make pkg-info epl helm-flx helm-descbinds helm-ag google-translate flx-ido flx fancy-battery eyebrowse evil-mc evil-lisp-state smartparens evil-indent-plus iedit evil-exchange evil-escape evil-ediff evil-args anzu evil goto-chg undo-tree highlight f s diminish define-word clean-aindent-mode bind-key packed dash ace-jump-helm-line helm avy helm-core popup package-build spacemacs-theme ws-butler window-numbering which-key uuidgen use-package toc-org restart-emacs request quelpa projectile popwin persp-mode pcre2el paradox org-plus-contrib open-junk-file move-text macrostep linum-relative link-hint info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers hide-comnt help-fns+ golden-ratio fill-column-indicator expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-iedit-state evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump column-enforce-mode bind-map auto-highlight-symbol auto-compile async aggressive-indent adaptive-wrap ace-window ace-link))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
