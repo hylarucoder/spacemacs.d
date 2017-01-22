@@ -57,7 +57,8 @@ values."
           org-enable-github-support t
           org-enable-reveal-js-support t
           org-bullets-bullet-list '("■" "◆" "▲" "▶")
-          org-projectile-file "~/Writing/org-notes/TODOs.org"
+          org-agenda-dir "~/Writing/org-notes/"
+          org-projectile-file "~/Writing/org-notes/todos.org"
           )
      osx
      sql
@@ -66,6 +67,9 @@ values."
              python-enable-yapf-format-on-save t)
      ipython-notebook
      django
+     (chinese :packages youdao-dictionary fcitx
+              :variables chinese-enable-fcitx nil
+              chinese-enable-youdao-dict t)
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -243,7 +247,7 @@ values."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
@@ -272,7 +276,7 @@ values."
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -327,6 +331,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;;(add-to-list 'python-shell-extra-pythonpaths "/Users/twocucao/Codes/Repos/PyLib")
   ;;解决org表格里面中英文对齐的问题
   (when (configuration-layer/layer-usedp 'chinese)
     (when (and (spacemacs/system-is-mac) window-system)
@@ -341,6 +346,72 @@ you should place your code here."
       (set-fontset-font (frame-parameter nil 'font)
                         charset
                         (font-spec :family "Microsoft Yahei" :size 14))))
+  ;; define the refile targets
+  (setq org-agenda-file-time-log (expand-file-name "timelog.org" org-agenda-dir))
+  (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+  (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
+  (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
+  ;;(setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
+  (setq org-agenda-file-someday (expand-file-name "someday.org" org-agenda-dir))
+  (setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
+  (setq org-agenda-files (list org-agenda-dir))
+
+  (setq org-todo-keywords
+        (quote ((sequence "TODO(t!)"  "NEXT(n!)" "|" "DONE(d!)")
+                (sequence "REPEAT(r)"  "WAIT(w!)"  "|"  "PAUSED(p@/!)" "CANCELLED(c@/!)" )
+                (sequence "IDEA(i!)" "MAYBE(y!)" "STAGED(s!)" "WORKING(k!)" "|" "USED(u!/@)")
+                )))
+  (defun open-time-log()
+    (interactive)
+    (find-file org-agenda-file-time-log)
+    )
+  (defun open-note ()
+    (interactive)
+    (find-file org-agenda-file-note)
+    )
+  (defun open-gtd ()
+    (interactive)
+    (find-file org-agenda-file-gtd)
+  )
+  (defun open-someday ()
+    (interactive)
+    (find-file org-agenda-file-someday)
+    )
+  (defun open-journal()
+    (interactive)
+    (find-file org-agenda-file-journal)
+    )
+  ;; the %i would copy the selected text into the template
+  ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
+  ;;add multi-file journal
+  (setq org-capture-templates
+        '(("t" "Tasks" entry (file+headline org-agenda-file-gtd "Tasks")
+            "*** TODO [#B] %?\n  %i\n"
+            :empty-lines 1)
+          ("h" "Habits" entry (file+headline org-agenda-file-gtd "Habits")
+           "** TODO [#A] %?\n  %i\n %U"
+           :empty-lines 1)
+          ("f" "Financial" entry (file+headline org-agenda-file-gtd "Financial")
+           "** TODO [#A] %?\n  %i\n %U"
+           :empty-lines 1)
+          ("s" "Someday/Maybe" entry (file+headline org-agenda-file-gtd "Someday/Maybe")
+           "** TODO [#A] %?\n  %i\n %U"
+           :empty-lines 1)
+          ("p" "Projects" entry (file+headline org-agenda-file-gtd "Projects")
+           "** TODO [#A] %?\n  %i\n %U"
+           :empty-lines 1)
+          ("c" "Calendar" entry (file+headline org-agenda-file-gtd "Calendar")
+            "*** TODO [#A] %?\n  %i\n %U"
+            :empty-lines 1)
+          ("a" "Appointment" entry (file+headline org-agenda-file-gtd "Calendar")
+           "* APPT %^{Description} %^g %? Added: %U"
+           :empty-lines 1)
+          ("l" "Log Time" entry (file+datetree org-agenda-file-time-log "Log Time")
+           "** %U - %^{Activity}  :TIME:"
+           )
+          ("j" "Journal Entry" entry (file+datetree org-agenda-file-journal)
+            "* %?"
+            :empty-lines 1)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -359,3 +430,4 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
