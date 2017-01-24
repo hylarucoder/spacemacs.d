@@ -145,7 +145,9 @@ values."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+                                (projects . 7)
+                                (agenda . 5)
+                                (todos . 5))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -331,7 +333,8 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;;(add-to-list 'python-shell-extra-pythonpaths "/Users/twocucao/Codes/Repos/PyLib")
+  (setq python-shell-extra-pythonpaths '("/Users/twocucao/Codes/Repos/PyLib"))
+  (add-to-list 'python-shell-extra-pythonpaths "/Users/twocucao/Codes/DQChina/DQChinaWeb/")
   ;;解决org表格里面中英文对齐的问题
   (when (configuration-layer/layer-usedp 'chinese)
     (when (and (spacemacs/system-is-mac) window-system)
@@ -345,7 +348,7 @@ you should place your code here."
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font)
                         charset
-                        (font-spec :family "Microsoft Yahei" :size 14))))
+                        (font-spec :family "DejaVu Sans Mono" :size 14))))
   ;; define the refile targets
   (setq org-agenda-file-time-log (expand-file-name "timelog.org" org-agenda-dir))
   (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
@@ -388,17 +391,17 @@ you should place your code here."
         '(("t" "Tasks" entry (file+headline org-agenda-file-gtd "Tasks")
             "*** TODO [#B] %?\n  %i\n"
             :empty-lines 1)
-          ("h" "Habits" entry (file+headline org-agenda-file-gtd "Habits")
-           "** TODO [#A] %?\n  %i\n %U"
+          ("h" "Habits" item (file+headline org-agenda-file-gtd "Myself habits")
+           "*** TODO [#A] %?\n  %i\n %U"
            :empty-lines 1)
           ("f" "Financial" entry (file+headline org-agenda-file-gtd "Financial")
-           "** TODO [#A] %?\n  %i\n %U"
+           "*** TODO [#A] %?\n  %i\n %U"
            :empty-lines 1)
           ("s" "Someday/Maybe" entry (file+headline org-agenda-file-gtd "Someday/Maybe")
-           "** TODO [#A] %?\n  %i\n %U"
+           "*** TODO [#A] %? %i Added: %U"
            :empty-lines 1)
           ("p" "Projects" entry (file+headline org-agenda-file-gtd "Projects")
-           "** TODO [#A] %?\n  %i\n %U"
+           "*** TODO [#A] %U [[file:%F][%F]]\t%?\t%^G %i\n\t "
            :empty-lines 1)
           ("c" "Calendar" entry (file+headline org-agenda-file-gtd "Calendar")
             "*** TODO [#A] %?\n  %i\n %U"
