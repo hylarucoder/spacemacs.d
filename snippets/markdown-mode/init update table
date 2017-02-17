@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: init update table
+# key: updinit
+# --
+UPDATE:
+
+| 日期                                             | 类型 | 详细操作   |
+|-- |--|--|
+| **`(format-time-string "%Y-%m-%d %H:%M:%S")`$0** | 创建 | 初始化本文 |
+|                                                  |      |            |
