@@ -359,12 +359,87 @@ you should place your code here."
     (while (re-search-forward "\\(^\\s-*$\\)\n" nil t)
       (replace-match "\n")
       (forward-char 1)))
-  (defun markdown-pangu-formated ()
+  (load-file "xah-replace-pairs.el")
+  (defun markdown-pangu-formated (begin end)
      "1.压缩空行
+     &lt;&amp;
       2.去处尾部空格
       3.去除全角的字母和数字"
-     (interactive)
-     (single-lines-only))
+     (interactive "r")
+     (xah-replace-pairs-region
+      begin end
+      '(
+        ["０" "0"]
+        ["１" "1"]
+        ["２" "2"]
+        ["３" "3"]
+        ["４" "4"]
+        ["５" "5"]
+        ["６" "6"]
+        ["７" "7"]
+        ["８" "8"]
+        ["９" "9"]
+        ["Ａ" "A"]
+        ["Ｂ" "B"]
+        ["Ｃ" "C"]
+        ["Ｄ" "D"]
+        ["Ｅ" "E"]
+        ["Ｆ" "F"]
+        ["Ｇ" "G"]
+        ["Ｈ" "H"]
+        ["Ｉ" "I"]
+        ["Ｊ" "J"]
+        ["Ｋ" "K"]
+        ["Ｌ" "L"]
+        ["Ｍ" "M"]
+        ["Ｎ" "N"]
+        ["Ｏ" "O"]
+        ["Ｐ" "P"]
+        ["Ｑ" "Q"]
+        ["Ｒ" "R"]
+        ["Ｓ" "S"]
+        ["Ｔ" "T"]
+        ["Ｕ" "U"]
+        ["Ｖ" "V"]
+        ["Ｗ" "W"]
+        ["Ｘ" "X"]
+        ["Ｙ" "Y"]
+        ["Ｚ" "Z"]
+        ["ａ" "a"]
+        ["ｂ" "b"]
+        ["ｃ" "c"]
+        ["ｄ" "d"]
+        ["ｅ" "e"]
+        ["ｆ" "f"]
+        ["ｇ" "g"]
+        ["ｈ" "h"]
+        ["ｉ" "i"]
+        ["ｊ" "j"]
+        ["ｋ" "k"]
+        ["ｌ" "l"]
+        ["ｍ" "m"]
+        ["ｎ" "n"]
+        ["ｏ" "o"]
+        ["ｐ" "p"]
+        ["ｑ" "q"]
+        ["ｒ" "r"]
+        ["ｓ" "s"]
+        ["ｔ" "t"]
+        ["ｕ" "u"]
+        ["ｖ" "v"]
+        ["ｗ" "w"]
+        ["ｘ" "x"]
+        ["ｙ" "y"]
+        ["ｚ" "z"]
+        ))
+     (xah-replace-regexp-pairs-region
+      begin end
+      '(
+        [
+        ["([\u4e00-\u9fa5\u3040-\u30FF])\." "\1。"]
+        ]
+        ))
+     )
 
   (setq python-shell-extra-pythonpaths '("/Users/twocucao/Codes/DQChina/DQChinaWeb/dqchinaweb"))
   (add-to-list 'python-shell-extra-pythonpaths "/Users/twocucao/Codes/Repos/YaDjangoWeb")
