@@ -31,12 +31,12 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     yaml
      helm
      (auto-completion :variables
                       auto-completion-enable-sort-by-usage t
@@ -148,7 +148,6 @@ values."
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists '((recents . 5)
                                 (projects . 7)
-                                (agenda . 5)
                                 (todos . 5))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
@@ -353,12 +352,20 @@ you should place your code here."
 
         (insert "Words: %d. Chars: %d." wordCount charCount)
         )))
-
-  ((defun markdown-pangu-formated ()
-     "1.盘古化
-     "
+  (defun single-lines-only ()
+    "replace multiple blank lines with a single one"
+    (interactive)
+    (goto-char (point-min))
+    (while (re-search-forward "\\(^\\s-*$\\)\n" nil t)
+      (replace-match "\n")
+      (forward-char 1)))
+  (defun markdown-pangu-formated ()
+     "1.压缩空行
+      2.去处尾部空格
+      3.去除全角的字母和数字"
      (interactive)
-     ))
+     (single-lines-only))
+
   (setq python-shell-extra-pythonpaths '("/Users/twocucao/Codes/DQChina/DQChinaWeb/dqchinaweb"))
   (add-to-list 'python-shell-extra-pythonpaths "/Users/twocucao/Codes/Repos/YaDjangoWeb")
   (add-to-list 'python-shell-extra-pythonpaths "/Users/twocucao/Codes/Repos/YaDjangoApp")
