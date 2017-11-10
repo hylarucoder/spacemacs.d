@@ -1,7 +1,6 @@
 
 (setq twocucao-programming-packages
       '(
-        flycheck
         js2-mode
         js2-refactor
         json-mode
@@ -61,21 +60,3 @@
                      local-eslint
                    global-eslint)))
     (setq-local flycheck-javascript-eslint-executable eslint)))
-
-(defun twocucao-programming/post-init-flycheck ()
-  (with-eval-after-load 'flycheck
-    (progn
-      (setq flycheck-display-errors-delay 0.9)
-      (setq flycheck-idle-change-delay 2.0))
-    (dolist (checker '(javascript-eslint javascript-standard))
-      (flycheck-add-mode checker 'vue-mode)
-      (flycheck-add-mode checker 'js2-mode)
-      (flycheck-add-mode checker 'web-mode)
-      ))
-  (add-hook 'vue-mode-hook #'twocucao-programming/use-eslint-from-node-modules)
-  (add-hook 'web-mode-hook 'my-web-mode-indent-setup)
-  (add-hook 'vue-mode-hook 'my-web-mode-indent-setup)
-  (spacemacs/add-flycheck-hook 'vue-mode)
-  (spacemacs/add-flycheck-hook 'js2-mode)
-  (spacemacs/add-flycheck-hook 'web-mode)
-  )
